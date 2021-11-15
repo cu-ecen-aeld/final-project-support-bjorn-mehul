@@ -9,7 +9,7 @@ ifeq ($(CFLAGS),)
 endif
 
 ifeq ($(LDFLAGS),)
-	LDFLAGS= -lgpiod
+	LDFLAGS= -lgpiod -pthread -lrt
 endif
 
 all: uart_test
