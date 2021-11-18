@@ -1,4 +1,4 @@
-
+//Example code : https://github.com/shenki/linux-i2c-example/blob/master/i2c_example.c
 /*
  * Simple I2C example
  *
