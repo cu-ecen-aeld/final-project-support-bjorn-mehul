@@ -9,7 +9,7 @@ ifeq ($(CFLAGS),)
 endif
 
 ifeq ($(LDFLAGS),)
-	LDFLAGS= -lgpiod -pthread -lrt
+	LDFLAGS= 
 endif
 
 all: main 
