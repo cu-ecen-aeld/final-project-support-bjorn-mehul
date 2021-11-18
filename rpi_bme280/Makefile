@@ -12,13 +12,23 @@ ifeq ($(LDFLAGS),)
 	LDFLAGS= -lgpiod -pthread -lrt
 endif
 
-all: bme280
-default: bme280
+all: main 
+default: main
 
 bme280 : bme280.o
 	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme280 bme280.o $(LDFLAGS)
 	
 bme280.o : bme280.c
 	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c bme280.c $(LDFLAGS)
+
+main : main.o
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o main main.o $(LDFLAGS)
+		
+main.o : main.c
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c main.c $(LDFLAGS)
+	
+main : main.o bme.o
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o main main.o $(LDFLAGS)
+	
 clean :
-	rm -f bme280 *.o
+	rm -f main *.o
