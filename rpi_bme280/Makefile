@@ -12,23 +12,11 @@ ifeq ($(LDFLAGS),)
 	LDFLAGS= 
 endif
 
-all: main 
-default: main
+all: bme_sensor
+default: bme_sensor
+ 
+bme280_sensor: linux_userspace.o bme280.o
+  $(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme_sensor linux_userspace.o bme280.o $(LDFLAGS)
 
-bme280 : bme280.o
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme280 bme280.o $(LDFLAGS)
-	
-bme280.o : bme280.c
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c bme280.c $(LDFLAGS)
-
-main : main.o
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o main main.o $(LDFLAGS)
-		
-main.o : main.c
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c main.c $(LDFLAGS)
-	
-main : main.o bme.o
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o main main.o $(LDFLAGS)
-	
 clean :
-	rm -f main *.o
+	rm -f bme_sensor *.o
