@@ -56,7 +56,9 @@ extern "C" {
 
 /* Header includes */
 #include "bme280_defs.h"
+#include "stdint.h"
 
+//#define __KERNEL__ 1
 /**
  * \ingroup bme280
  * \defgroup bme280ApiInit Initialization
