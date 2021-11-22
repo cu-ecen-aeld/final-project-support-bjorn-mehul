@@ -11,8 +11,8 @@ endif
 all: bme_sensor
 default: bme_sensor
 
-bme_sensor: linux_userspace.o bme280.o
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme_sensor linux_userspace.o bme280.o $(LDFLAGS)
+bme_sensor: main.o bme280.o
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme_sensor main.o bme280.o $(LDFLAGS)
 
 clean :
 	rm -f *.o bme_sensor
