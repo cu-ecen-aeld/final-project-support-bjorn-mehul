@@ -35,7 +35,7 @@
 * @version    v3.5.0
 *
 */
-
+//#define __KERNEL__ 1
 #ifndef BME280_DEFS_H_
 #define BME280_DEFS_H_
 
