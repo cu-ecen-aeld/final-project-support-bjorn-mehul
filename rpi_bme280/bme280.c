@@ -35,7 +35,7 @@
 * @version    v3.5.0
 *
 */
-
+//#define __KERNEL__ 1
 /*! @file bme280.c
  * @brief Sensor driver for BME280 sensor
  */
