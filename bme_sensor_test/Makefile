@@ -1,15 +1,21 @@
-CC=gcc
-CFLAGS= -O3 -Wall -g
-LIBS= -lm
-AR=ar
+CROSS_COMPILE=
 
-ALLBIN=getbme280
+ifeq ($(CC),)
+	CC=$(CROSS_COMPILE)gcc
+endif
 
-all: ${ALLBIN}
+ifeq ($(CFLAGS),)
+	CFLAGS= -g -Wall -Werror
+endif
 
-clean:
-	rm -f *.o ${ALLBIN}
+ifeq ($(LDFLAGS),)
+	LDFLAGS= -lm
+endif
+all: bme_sensor
+default: bme_sensor
 
-getbme280: i2c_bme280.o getbme280.o
-	$(CC) i2c_bme280.o getbme280.o -o getbme280 ${LIBS}
+bme_sensor: i2c_bme280.o getbme280.o
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -o bme_sensor i2c_bme280.o getbme280.o $(LDFLAGS)
 
+clean :
+	rm -f *.o bme_sensor
