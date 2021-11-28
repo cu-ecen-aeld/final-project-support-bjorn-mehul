@@ -8,9 +8,9 @@ ifeq ($(CFLAGS),)
 	CFLAGS= -g -Wall -Werror
 endif
 
-ifeq ($(LDFLAGS),)
-	LDFLAGS= -lm
-endif
+#ifeq ($(LDFLAGS),)
+#	LDFLAGS= -lm
+#endif
 all: bme_sensor
 default: bme_sensor
 
