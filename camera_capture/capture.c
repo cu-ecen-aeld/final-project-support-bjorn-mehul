@@ -65,7 +65,7 @@ struct buffer          *buffers;
 static unsigned int     n_buffers;
 static int              out_buf;
 static int              force_format=1;
-static int              frame_count = 30;
+static int              frame_count = 1;
 
 static void errno_exit(const char *s)
 {
@@ -87,8 +87,7 @@ static int xioctl(int fh, int request, void *arg)
 }
 
 char ppm_header[]="P6\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char ppm_dumpname[]="/var/test.ppm";
-
+char ppm_dumpname[]="test.ppm";
 static void dump_ppm(const void *p, int size, unsigned int tag, struct timespec *time)
 {
     int written, total, dumpfd;
@@ -121,8 +120,7 @@ static void dump_ppm(const void *p, int size, unsigned int tag, struct timespec 
 
 
 char pgm_header[]="P5\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char pgm_dumpname[]="/var/test.pgm";
-
+char pgm_dumpname[]="test.pgm";
 static void dump_pgm(const void *p, int size, unsigned int tag, struct timespec *time)
 {
     int written,total, dumpfd;
@@ -956,6 +954,19 @@ int main(int argc, char **argv)
     uninit_device();
     close_device();
     fprintf(stderr, "\n");
+	
+	printf("\ncapturing complete\n");
+
+ 	printf("\nCompressing image\n");
+	system("mogrify -format jpg test.ppm");
+								  
+										
     return 0;
 }
+
+
+
+
+
+
 
