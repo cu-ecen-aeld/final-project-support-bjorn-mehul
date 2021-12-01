@@ -1,5 +1,3 @@
-//Author : Professor Sam siewart
-//Minor modification by Mehul
 /*
  *
  *  Adapted by Sam Siewert for use with UVC web cameras and Bt878 frame
@@ -89,20 +87,20 @@ static int xioctl(int fh, int request, void *arg)
 }
 
 char ppm_header[]="P6\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char ppm_dumpname[]="test00000000.ppm";
+char ppm_dumpname[]="/var/test.ppm";
 
 static void dump_ppm(const void *p, int size, unsigned int tag, struct timespec *time)
 {
-    int written, i, total, dumpfd;
+    int written, total, dumpfd;
    
-    snprintf(&ppm_dumpname[4], 9, "%08d", tag);
-    strncat(&ppm_dumpname[12], ".ppm", 5);
+    //snprintf(&ppm_dumpname[4], 9, "%08d", tag);
+   // strncat(&ppm_dumpname[12], ".ppm", 5);
     dumpfd = open(ppm_dumpname, O_WRONLY | O_NONBLOCK | O_CREAT, 00666);
 
     snprintf(&ppm_header[4], 11, "%010d", (int)time->tv_sec);
-    strncat(&ppm_header[14], " sec ", 5);
+    strcat(&ppm_header[14], " sec");
     snprintf(&ppm_header[19], 11, "%010d", (int)((time->tv_nsec)/1000000));
-    strncat(&ppm_header[29], " msec \n"HRES_STR" "VRES_STR"\n255\n", 19);
+    strcat(&ppm_header[29], " msec \n"HRES_STR" "VRES_STR"\n255\n");
 
     // subtract 1 because sizeof for string includes null terminator
     written=write(dumpfd, ppm_header, sizeof(ppm_header)-1);
@@ -123,20 +121,20 @@ static void dump_ppm(const void *p, int size, unsigned int tag, struct timespec 
 
 
 char pgm_header[]="P5\n#9999999999 sec 9999999999 msec \n"HRES_STR" "VRES_STR"\n255\n";
-char pgm_dumpname[]="test00000000.pgm";
+char pgm_dumpname[]="/var/test.pgm";
 
 static void dump_pgm(const void *p, int size, unsigned int tag, struct timespec *time)
 {
-    int written, i, total, dumpfd;
+    int written,total, dumpfd;
    
-    snprintf(&pgm_dumpname[4], 9, "%08d", tag);
-    strncat(&pgm_dumpname[12], ".pgm", 5);
+   // snprintf(&pgm_dumpname[4], 9, "%08d", tag);
+   // strncat(&pgm_dumpname[12], ".pgm", 5);
     dumpfd = open(pgm_dumpname, O_WRONLY | O_NONBLOCK | O_CREAT, 00666);
 
     snprintf(&pgm_header[4], 11, "%010d", (int)time->tv_sec);
-    strncat(&pgm_header[14], " sec ", 5);
+    strcat(&pgm_header[14], " sec ");
     snprintf(&pgm_header[19], 11, "%010d", (int)((time->tv_nsec)/1000000));
-    strncat(&pgm_header[29], " msec \n"HRES_STR" "VRES_STR"\n255\n", 19);
+    strcat(&pgm_header[29], " msec \n"HRES_STR" "VRES_STR"\n255\n");
 
     // subtract 1 because sizeof for string includes null terminator
     written=write(dumpfd, pgm_header, sizeof(pgm_header)-1);
@@ -223,7 +221,7 @@ unsigned char bigbuffer[(1280*960)];
 
 static void process_image(const void *p, int size)
 {
-    int i, newi, newsize=0;
+    int i, newi;
     struct timespec frame_time;
     int y_temp, y2_temp, u_temp, v_temp;
     unsigned char *pptr = (unsigned char *)p;
@@ -248,6 +246,7 @@ static void process_image(const void *p, int size)
     {
 
 #if defined(COLOR_CONVERT)
+								
         printf("Dump YUYV converted to RGB size %d\n", size);
        
         // Pixels are YU and YV alternating, so YUYV which is 4 bytes
