@@ -50,8 +50,7 @@ def main():
         proc2 = subprocess.Popen(['display', 'test_recv.jpg'])
 
         for i in range(0, 10):
-            #subprocess.call("bme_sensor")
-            print("I2C Values" + str(i))
+            subprocess.call("bme_sensor")
             time.sleep(1)
         
         proc1.terminate()
