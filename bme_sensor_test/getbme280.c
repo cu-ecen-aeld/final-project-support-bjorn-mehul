@@ -60,7 +60,6 @@ int main()
       {
          set_power(normal);
       }
-      while(1){
          time_t tsnow = time(NULL);
          get_data(&bmec, &bmed);
    
@@ -88,7 +87,5 @@ int main()
             fprintf(html, "</tr></table>\n");
             fclose(html);
          }
-         sleep(1);
-      }
    } /* End reading continuous data */
 }
