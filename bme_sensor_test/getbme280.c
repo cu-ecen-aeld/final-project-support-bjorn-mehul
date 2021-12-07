@@ -68,7 +68,7 @@ int main()
 		 * ----------------------------------------------------------- */
 		printf("%lld Temp=%3.2f*C Humidity=%3.2f%% Pressure=%3.2fhPa\n", (long long) tsnow, bmed.temp_c, bmed.humi_p, bmed.pres_p/100);
 				
-		sleep(2);
+		sleep(4);
 
 	} /* End reading continuous data */
 }
