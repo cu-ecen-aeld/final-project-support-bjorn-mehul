@@ -51,7 +51,7 @@ def main():
         proc2 = subprocess.Popen(['display', 'test_recv.jpg'])
 
         for i in range(0, 10):
-            subprocess.call("/usr/bin/bme280.py")
+            os.system("python3 /usr/bin/read_bme280.py")
             time.sleep(1)
         
         proc1.terminate()
@@ -70,7 +70,7 @@ def main():
         dest2 = "captures/cam2/" + filename
         shutil.copyfile(src2, dest2)
 
-        i += 1
+        img_id += 1
 
 if __name__ == "__main__":
     main()
