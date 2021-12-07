@@ -60,15 +60,17 @@ int main()
 		{
 			set_power(normal);
 		}
-		time_t tsnow = time(NULL);
-		get_data(&bmec, &bmed);
+		while(1)
+		{
+			//time_t tsnow = time(NULL);
+			get_data(&bmec, &bmed);
 
-		/* ----------------------------------------------------------- *
-		 * print the formatted output string to stdout (Example below) *
-		 * ----------------------------------------------------------- */
-		printf("%lld Temp=%3.2f*C Humidity=%3.2f%% Pressure=%3.2fhPa\n", (long long) tsnow, bmed.temp_c, bmed.humi_p, bmed.pres_p/100);
-				
-		sleep(4);
+			/* ----------------------------------------------------------- *
+			 * print the formatted output string to stdout (Example below) *
+			 * ----------------------------------------------------------- */
+			printf(" Temp=%3.2f*C Humidity=%3.2f%% Pressure=%3.2fhPa\n",bmed.temp_c, bmed.humi_p, bmed.pres_p/100);
 
+			sleep(1);
+		}
 	} /* End reading continuous data */
 }
