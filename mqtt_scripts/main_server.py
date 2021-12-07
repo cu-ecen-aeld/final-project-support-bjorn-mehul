@@ -2,6 +2,7 @@ import time
 import paho.mqtt.client as mqtt
 import subprocess
 import os
+import shutil
 
 # Server (Subscriber) = Yocto RasPi 4 - 192.168.0.232
 # Client (Publisher) = Buildroot RasPi 3 - 192.168.0.195
@@ -50,11 +51,26 @@ def main():
         proc2 = subprocess.Popen(['display', 'test_recv.jpg'])
 
         for i in range(0, 10):
-            subprocess.call("bme_sensor")
+            subprocess.call("/usr/bin/bme280.py")
             time.sleep(1)
         
         proc1.terminate()
         proc2.terminate()
+
+        # archive the current images
+        filename = "img" + str(img_id) + ".jpg"
+
+        # copy and rename current server picture
+        src1 = "test.jpg"
+        dest1 = "captures/cam1/" + filename
+        shutil.copyfile(src1, dest1)
+
+        # copy and rename current client picture
+        src2 = "test_recv.jpg"
+        dest2 = "captures/cam2/" + filename
+        shutil.copyfile(src2, dest2)
+
+        i += 1
 
 if __name__ == "__main__":
     main()
