@@ -25,52 +25,30 @@ char senaddr[256] = BME280_ADDR;
 char i2c_bus[256] = I2CBUS;
 char htmfile[256] = {0};
 
-
-
 int main() 
-{    
-	/* ----------------------------------------------------------- *
-	 * get current time (now), write program start if verbose      *
-	 * ----------------------------------------------------------- */
-	//time_t tsnow = time(NULL);
-	//if(verbose == 1) printf("Debug: ts=[%lld] date=%s", (long long) tsnow, ctime(&tsnow));
-
-	/* ----------------------------------------------------------- *
-	 * "-a" open the I2C bus and connect to the sensor i2c address *
-	 * ----------------------------------------------------------- */
+{    		  
 	get_i2cbus(i2c_bus, senaddr);
+	struct bmecal bmec;
+	struct bmedata bmed;
+	get_calib(&bmec);
 
-	// argflag = 6;
-
-
-	/* ----------------------------------------------------------- *
-	 *  "-c" continuously read and output compensated sensor data  *
-	 * 1584280335 Temp=22.76*C Humidity=22.30% Pressure=1002.56hPa *
-	 * ----------------------------------------------------------- */
-	//if(argflag == 5) 
+	/* -------------------------------------------------------- *
+	 * If power mode != NORMAL, set NORMAL for continuous reads *
+	 * -------------------------------------------------------- */
+	if(get_power() != 0x3) 
 	{
-		struct bmecal bmec;
-		struct bmedata bmed;
-		get_calib(&bmec);
+		set_power(normal);
+	}
+	while(1)
+	{
+		//time_t tsnow = time(NULL);
+		get_data(&bmec, &bmed);
 
-		/* -------------------------------------------------------- *
-		 * If power mode != NORMAL, set NORMAL for continuous reads *
-		 * -------------------------------------------------------- */
-		if(get_power() != 0x3) 
-		{
-			set_power(normal);
-		}
-		while(1)
-		{
-			//time_t tsnow = time(NULL);
-			get_data(&bmec, &bmed);
+		/* ----------------------------------------------------------- *
+		 * print the formatted output string to stdout (Example below) *
+		 * ----------------------------------------------------------- */
+		printf(" Temp=%3.2f*C Humidity=%3.2f%% Pressure=%3.2fhPa\n",bmed.temp_c, bmed.humi_p, bmed.pres_p/100);
 
-			/* ----------------------------------------------------------- *
-			 * print the formatted output string to stdout (Example below) *
-			 * ----------------------------------------------------------- */
-			printf(" Temp=%3.2f*C Humidity=%3.2f%% Pressure=%3.2fhPa\n",bmed.temp_c, bmed.humi_p, bmed.pres_p/100);
-
-			sleep(1);
-		}
-	} /* End reading continuous data */
+		sleep(1);
+	}	 
 }
